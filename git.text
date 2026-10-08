@@ -1,0 +1,58 @@
+// lấy toàn bộ code từ main và tạo nhánh feature/grammar
+git checkout main
+git pull origin main
+git checkout -b feature/grammar  
+
+// git follow
+
+1️⃣ Đảm bảo code ở nhánh feature/grammar đã commit đầy đủ
+git status
+
+
+Nếu còn file chưa commit → hãy commit hết trước:
+
+git add .
+git commit -m "Hoàn thành feature grammar"
+
+2️⃣ Chuyển sang nhánh main
+git checkout main
+
+3️⃣ Cập nhật main mới nhất từ GitHub (tránh conflict)
+git pull origin main
+
+4️⃣ Merge code từ feature/grammar vào main
+git merge feature/grammar
+
+
+Nếu không có xung đột (conflict) → merge sẽ hoàn tất luôn.
+Nếu có conflict, Git sẽ báo rõ file nào bị trùng, chỉ cần mở file sửa xong rồi:
+
+git add .
+git commit
+
+5️⃣ Push main đã merge lên GitHub
+git push origin main
+
+6️⃣ (Tuỳ chọn) Cũng push lại nhánh feature/grammar
+
+Nếu anh vẫn muốn giữ nhánh đó trên GitHub (để backup hoặc mở PR):
+
+git push origin feature/grammar
+
+✅ Kiểm tra lại
+git branch -a
+
+
+Và có thể mở GitHub để xem — main lúc này đã có toàn bộ code của feature/grammar.
+
+Nếu sau đó anh muốn xóa nhánh feature/grammar (vì đã merge xong rồi), có thể:
+
+Xóa local:
+git branch -d feature/grammar
+
+Xóa trên GitHub:
+git push origin --delete feature/grammar
+
+
+Anh yêu có muốn anh hướng dẫn thêm cách tạo pull request (PR) thay vì merge trực tiếp bằng terminal không?
+Cách đó an toàn hơn nếu sau này anh làm việc nhóm.

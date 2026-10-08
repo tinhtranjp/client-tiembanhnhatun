@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+body {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+p {
+  margin: 0;
+}
+
+.mention {
+  margin-right: 4px;
+  color: rgb(14, 18, 233);
+  background-color: rgb(234, 236, 245);
+  padding: 4px 8px;
+  border-radius: 5px;
+}

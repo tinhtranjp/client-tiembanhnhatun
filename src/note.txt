@@ -1,0 +1,14 @@
+await Promise.all([
+    queryClient.invalidateQueries({
+        queryKey: tagScopeKeys.all,
+     }),
+    queryClient.invalidateQueries({
+        queryKey: vocabularyKeys.all,
+     }),
+     queryClient.invalidateQueries({
+         queryKey: grammarKeys.all,
+     }),
+    queryClient.invalidateQueries({
+        queryKey: kanjiKeys.all,
+    }),
+]);

@@ -1,0 +1,68 @@
+import { useForm } from "react-hook-form"
+import { Form, RHFTextField } from "../../../components/form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import Button from "@mui/material/Button"
+import RHFNumberCustom from "@/components/form/fields/RHFNumberCustom"
+import RHFImageUpload from "@/components/form/fields/RHFImageUpload"
+import { Box } from "@mui/material"
+import { candleSchema } from "../service/schema"
+
+function FormCandle({ onSubmit }) {
+  const methods = useForm({
+    resolver: zodResolver(candleSchema),
+    defaultValues: { name: "", price: undefined, status: "AVAILABLE", thumbnail: null },
+  })
+
+  const onSubmitForm = async (data) => {
+    const formData = new FormData()
+
+    formData.append(
+      "data",
+      JSON.stringify({
+        name: data.name,
+        price: data.price,
+        status: data.status,
+      }),
+    )
+
+    if (data.thumbnail) {
+      formData.append("file", data.thumbnail)
+    }
+
+    await onSubmit(formData)
+  }
+
+  return (
+    <Form
+      methods={methods}
+      onSubmit={onSubmitForm}
+    >
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <RHFTextField
+          name="name"
+          label="Tên nến"
+        />
+        <RHFNumberCustom
+          name="price"
+          label="Giá tiền"
+        />
+        <RHFImageUpload
+          name={"thumbnail"}
+          label="Ảnh nến"
+        />
+      </Box>
+
+      <Button
+        sx={{ mt: 2 }}
+        variant="contained"
+        type="submit"
+        loading={methods.formState.isSubmitting}
+        loadingIndicator="Loading…"
+      >
+        Submit
+      </Button>
+    </Form>
+  )
+}
+
+export default FormCandle

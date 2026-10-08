@@ -1,0 +1,91 @@
+.t-ckeditor .text-red {
+  color: #dc3545;
+}
+.t-ckeditor .text-blue {
+  color: #007bff;
+}
+.t-ckeditor .text-highlight {
+  background: #fff3cd;
+  padding: 2px 4px;
+}
+.t-ckeditor .alert-warning {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+}
+.t-ckeditor .info-box {
+  background: #f8f9fa;
+}
+.t-ckeditor .success-box {
+  background: #d4edda;
+}
+.t-ckeditor .lead-text {
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+.t-ckeditor .small-text {
+  font-size: 0.875rem;
+}
+
+.t-ckeditor .posyahoo {
+  color: #4dabf5;
+}
+
+.t-ckeditor .jp-examples {
+  background-color: #f1f3f5;
+  padding: 10px;
+  border-left: 4px solid #007bff;
+  margin-bottom: 1rem;
+}
+
+.t-ckeditor .jp-info {
+  background-color: #eff6ff;
+  padding: 10px;
+  border-left: 4px solid #3b82f6;
+  margin-bottom: 1rem;
+}
+
+.t-ckeditor .jp-note {
+  background-color: #fff1f2;
+  padding: 10px;
+  border-left: 4px solid rgb(244, 63, 94);
+  margin-bottom: 1rem;
+}
+
+.t-ckeditor .jp-exp {
+  margin-bottom: 10px;
+}
+
+.t-ckeditor .jp-meaning {
+  color: #28a745;
+}
+
+.post_kan,
+.post_ren,
+.post_go,
+.post_rui,
+.post_tai {
+  padding: 4px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.post_kan {
+  background-color: #155724;
+}
+.post_ren {
+  background-color: #28a745;
+}
+.post_go {
+  background-color: #4dabf5;
+}
+.post_rui {
+  background-color: #28a745;
+}
+.post_tai {
+  background-color: #4dabf5;
+}
+
+.ck-color-grid {
+  max-height: 400px !important;
+  overflow-y: auto !important;
+}
