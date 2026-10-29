@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 function AddProduct() {
   const mutation = useProductAdd()
   const navigate = useNavigate()
-  const handleSubmit = async ({ data, files }) => {
+  const handleSubmit = async ({ files, ...data }) => {
     try {
       const result = await mutation.mutateAsync(data)
       const productId = result.data.data.id

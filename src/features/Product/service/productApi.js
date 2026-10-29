@@ -2,13 +2,15 @@ import { axiosClient } from "@/lib/axiosClient"
 
 export const productApi = {
   getProducts: () => axiosClient.get("/products").then((res) => res.data),
-  add: (data) => axiosClient.post("/products", data),
+  add: (data) => {
+    return axiosClient.post("/products", data)
+  },
   reorder: (data) => axiosClient.put("/products/reorder", data),
   uploadImages: (id, files) => {
     const formData = new FormData()
 
-    files.forEach((file) => {
-      formData.append("files", file)
+    files.forEach((item) => {
+      formData.append("files", item.file)
     })
 
     return axiosClient.post(`/products/${id}/images`, formData)

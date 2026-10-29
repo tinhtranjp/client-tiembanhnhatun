@@ -10,10 +10,9 @@ import { createProductSchema } from "../service/schema"
 import RHFNumberCustom from "@/components/form/fields/RHFNumberCustom"
 import RHFCkeditor from "@/components/form/fields/RHFCkeditor"
 
-import { useCategoryGetAll } from "@/features/Category/service/queries"
 import { useThemeGetAll } from "@/features/Theme/service/queries"
 
-import { sizeCake, layers } from "../helper"
+import { sizeCakes, layers } from "../helper"
 
 import ProductImageUpload from "./ProductImageUpload"
 import { useMediaDiff } from "@/hook/useMediaDiff"
@@ -21,15 +20,9 @@ import { useMediaDiff } from "@/hook/useMediaDiff"
 function UpdateFormProduct({ productDetail, onSubmit }) {
   const [images, setImages] = useState([])
 
-  const { data: categories } = useCategoryGetAll()
   const { data: themes } = useThemeGetAll()
 
   const editorRef = useRef(null)
-
-  const categoryOptions = categories?.data.map((item) => ({
-    value: Number(item.id),
-    label: item.name,
-  }))
 
   const themeOptions = themes?.data.map((item) => ({
     value: Number(item.id),
@@ -47,8 +40,8 @@ function UpdateFormProduct({ productDetail, onSubmit }) {
       currentPrice: undefined,
       size: "10cm",
       layers: "1 tầng",
+      cakeBase: "VANI",
       embeddingText: "",
-      categoryIds: [],
       themeIds: [],
     },
   })
@@ -64,8 +57,8 @@ function UpdateFormProduct({ productDetail, onSubmit }) {
       currentPrice: productDetail.currentPrice ?? undefined,
       size: productDetail.size ?? "10cm",
       layers: productDetail.layers ?? "1 tầng",
+      cakeBase: productDetail.cakeBase ?? "VANI",
       embeddingText: productDetail.embeddingText ?? "",
-      categoryIds: productDetail.categoryIds ?? [],
       themeIds: productDetail.themeIds ?? [],
     })
 
@@ -151,13 +144,6 @@ function UpdateFormProduct({ productDetail, onSubmit }) {
         />
 
         <AutocompleteField
-          name="categoryIds"
-          label="Thể loại"
-          options={categoryOptions}
-          multiple
-        />
-
-        <AutocompleteField
           name="themeIds"
           label="Chủ đề"
           options={themeOptions}
@@ -173,7 +159,7 @@ function UpdateFormProduct({ productDetail, onSubmit }) {
         <AutocompleteField
           name="size"
           label="Size bánh"
-          options={sizeCake}
+          options={sizeCakes}
         />
 
         <RHFNumberCustom

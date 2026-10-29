@@ -5,13 +5,10 @@ import { useHatAdd } from "./service/mutation"
 export default function AddHat() {
   const navigate = useNavigate()
   const mutation = useHatAdd()
+
   const handleSubmit = async (formData) => {
-    try {
-      await mutation.mutateAsync(formData)
-      navigate("/hat/list")
-    } catch (error) {
-      console.log(error)
-    }
+    await mutation.mutateAsync(formData)
+    navigate("/hat/list")
   }
   return (
     <Box sx={{ px: 4 }}>

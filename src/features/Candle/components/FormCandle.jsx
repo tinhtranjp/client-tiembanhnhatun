@@ -5,11 +5,11 @@ import Button from "@mui/material/Button"
 import RHFNumberCustom from "@/components/form/fields/RHFNumberCustom"
 import RHFImageUpload from "@/components/form/fields/RHFImageUpload"
 import { Box } from "@mui/material"
-import { candleSchema } from "../service/schema"
+import { candleCreateSchema } from "../service/schema"
 
 function FormCandle({ onSubmit }) {
   const methods = useForm({
-    resolver: zodResolver(candleSchema),
+    resolver: zodResolver(candleCreateSchema),
     defaultValues: { name: "", price: undefined, status: "AVAILABLE", thumbnail: null },
   })
 

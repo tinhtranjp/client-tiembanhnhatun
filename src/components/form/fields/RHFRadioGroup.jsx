@@ -2,24 +2,18 @@ import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioG
 import useFieldController from "../hooks/useFieldController"
 import getErrorMessage from "../utils/getErrorMessage"
 
-function RHFRadioGroup({
+export default function RHFRadioGroup({
   name,
-
   label,
-
   options = [],
-
   row = false,
-
   helperText,
-
   disabled,
-
-  shouldUnregister,
-
+  booleanValue = false,
   ...rest
 }) {
   const { field, fieldState } = useFieldController({ name })
+
   return (
     <FormControl
       error={fieldState.invalid}
@@ -31,12 +25,13 @@ function RHFRadioGroup({
         {...field}
         {...rest}
         row={row}
-        value={field.value ?? ""}
+        value={field.value == null ? "" : String(field.value)}
+        onChange={(_, value) => field.onChange(booleanValue ? value === "true" : value)}
       >
         {options.map((item) => (
           <FormControlLabel
-            key={item.value}
-            value={item.value}
+            key={String(item.value)}
+            value={String(item.value)}
             label={item.label}
             disabled={item.disabled}
             control={<Radio />}
@@ -48,5 +43,3 @@ function RHFRadioGroup({
     </FormControl>
   )
 }
-
-export default RHFRadioGroup

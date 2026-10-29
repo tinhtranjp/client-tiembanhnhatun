@@ -14,8 +14,6 @@ import {
   LayoutRoute,
   UpdateProduct,
   Home,
-  Category,
-  ReoderCategory,
   ReorderTheme,
   AddProduct,
   Product,
@@ -29,8 +27,14 @@ import {
   AddMemo,
   UpdateMemo,
   Detail,
+  Order,
+  AddOrder,
+  UpdateOrder,
+  OrderDetail,
+  CakeBaseSummary,
 } from "./features"
 import ScrollToTop from "./hook/ScrollToTop"
+import ImageZoomDialog from "./components/common/ImageZoomDiaLog"
 const theme = createTheme({
   typography: {
     fontFamily: 'Roboto, "Helvetica", "Arial", sans-serif',
@@ -49,15 +53,6 @@ function App() {
               <Route
                 element={<Home />}
                 path="/"
-              />
-              // Category
-              <Route
-                element={<Category />}
-                path="/category/list"
-              />
-              <Route
-                element={<ReoderCategory />}
-                path="/category/reorder"
               />
               // Theme
               <Route
@@ -124,6 +119,27 @@ function App() {
                 element={<Detail />}
                 path="/memo/:id/detail"
               />
+              // Order
+              <Route
+                element={<Order />}
+                path="/order/list"
+              />
+              <Route
+                element={<AddOrder />}
+                path="/order/add"
+              />
+              <Route
+                element={<UpdateOrder />}
+                path="/order/:id/edit"
+              />
+              <Route
+                element={<OrderDetail />}
+                path="/order/:id/detail"
+              />
+              <Route
+                element={<CakeBaseSummary />}
+                path="/order/cakebase-summary"
+              />
               <Route
                 path="*"
                 element={<NotFound />}
@@ -135,6 +151,7 @@ function App() {
         </BrowserRouter>
 
         <GlobalModal />
+        <ImageZoomDialog />
         <CssBaseline />
       </ThemeProvider>
       <Toaster richColors />

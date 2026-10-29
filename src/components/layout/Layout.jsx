@@ -10,19 +10,19 @@ import { useLocation } from "react-router-dom"
 const menuItems = [
   { title: "Dashboard", type: "link", url: "/" },
   {
-    title: "Thể loại",
+    title: "Đơn hàng",
     type: "parent",
     children: [
-      { title: "List", type: "link", url: "/category/list" },
-      { title: "Sắp xếp", type: "link", url: "/category/reorder" },
+      { title: "List", type: "link", url: "/order/list" },
+      { title: "Add", type: "link", url: "/order/add" },
     ],
   },
   {
-    title: "Chủ đề",
+    title: "Ghi chú",
     type: "parent",
     children: [
-      { title: "List", type: "link", url: "/theme/list" },
-      { title: "Sắp xếp", type: "link", url: "/theme/reorder" },
+      { title: "List", type: "link", url: "/memo/list" },
+      { title: "Add", type: "link", url: "/memo/add" },
     ],
   },
   {
@@ -50,11 +50,11 @@ const menuItems = [
     ],
   },
   {
-    title: "Ghi chú",
+    title: "Chủ đề",
     type: "parent",
     children: [
-      { title: "List", type: "link", url: "/memo/list" },
-      { title: "Add", type: "link", url: "/memo/add" },
+      { title: "List", type: "link", url: "/theme/list" },
+      { title: "Sắp xếp", type: "link", url: "/theme/reorder" },
     ],
   },
 ]

@@ -5,26 +5,21 @@ import Button from "@mui/material/Button"
 import { createProductSchema } from "../service/schema"
 import RHFNumberCustom from "@/components/form/fields/RHFNumberCustom"
 import RHFCkeditor from "@/components/form/fields/RHFCkeditor"
-import { useCategoryGetAll } from "@/features/Category/service/queries"
 import { useThemeGetAll } from "@/features/Theme/service/queries"
-import { sizeCake, layers } from "../helper"
+import { sizeCakes, layers, cakeBaseOptions } from "../helper"
 import { Box } from "@mui/material"
+
 import { useState } from "react"
 import ProductImageUpload from "./ProductImageUpload"
 import { useRef } from "react"
 import { useMediaDiff } from "@/hook/useMediaDiff"
 function FormProduct({ onSubmit }) {
   const [images, setImages] = useState([])
-  const { data: categories } = useCategoryGetAll()
   const { data: themes } = useThemeGetAll()
 
   const editorRef = useRef(null)
 
   const { getMediaDiff } = useMediaDiff()
-  const categoryOptions = categories?.data.map((item) => ({
-    value: Number(item.id),
-    label: item.name,
-  }))
 
   const themeOptions = themes?.data.map((item) => ({
     value: Number(item.id),
@@ -42,7 +37,6 @@ function FormProduct({ onSubmit }) {
       size: "10cm",
       layers: "1 tầng",
       embeddingText: "",
-      categoryIds: [],
       themeIds: [],
     },
   })
@@ -50,9 +44,9 @@ function FormProduct({ onSubmit }) {
   const onSubmitForm = async (data) => {
     const uploadMedia = editorRef.current?.getUploadMedia() ?? []
     const { activeImageIds, deleteImageIds } = getMediaDiff(data.description, uploadMedia)
-
     await onSubmit({
       ...data,
+      embeddingText: `${data.name}, ${data.embeddingText}`,
       activeImageIds,
       deleteImageIds,
       files: images,
@@ -74,12 +68,6 @@ function FormProduct({ onSubmit }) {
           label="Tên bánh"
         />
         <AutocompleteField
-          name={"categoryIds"}
-          label={"Thể loại"}
-          options={categoryOptions}
-          multiple
-        />
-        <AutocompleteField
           name={"themeIds"}
           label={"Chủ đề"}
           options={themeOptions}
@@ -93,7 +81,7 @@ function FormProduct({ onSubmit }) {
         <AutocompleteField
           name={"size"}
           label={"Size bánh"}
-          options={sizeCake}
+          options={sizeCakes}
         />
         <RHFNumberCustom
           name="minPrice"

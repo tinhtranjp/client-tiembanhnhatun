@@ -1,14 +1,23 @@
-import z from "zod"
+import { z } from "zod"
 
-export const candleSchema = z.object({
-  name: z.string().min(1, "Tên mũ không được để trống"),
+const candleFields = {
+  name: z.string().min(1, "Tên nến không được để trống"),
   price: z
     .number({
       error: "Giá không được để trống",
     })
-    .nonnegative("Giá thấp nhất không được âm"),
+    .nonnegative("Giá tiền không được âm"),
   status: z.enum(["AVAILABLE", "UNAVAILABLE"]),
+}
+
+export const candleCreateSchema = z.object({
+  ...candleFields,
   thumbnail: z.instanceof(File, {
     message: "Vui lòng chọn ảnh",
   }),
+})
+
+export const candleSchema = z.object({
+  ...candleFields,
+  thumbnail: z.instanceof(File).nullable(),
 })

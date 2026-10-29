@@ -17,26 +17,27 @@ function SortableImage({ id, data, index, onRemove }) {
 
   const [preview, setPreview] = useState("")
 
-  useEffect(() => {
-    if (data.type === "existing") {
-      setPreview(data.secureUrl)
-      return
-    }
-
-    const url = URL.createObjectURL(data.file)
-
-    setPreview(url)
-
-    return () => {
-      URL.revokeObjectURL(url)
-    }
-  }, [data])
-
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     touchAction: "none",
   }
+  useEffect(() => {
+    if (data.type === "existing") {
+      setPreview(data.secureUrl || null)
+      return
+    }
+
+    if (!(data.file instanceof File)) {
+      setPreview(null)
+      return
+    }
+
+    const url = URL.createObjectURL(data.file)
+    setPreview(url)
+
+    return () => URL.revokeObjectURL(url)
+  }, [data.type, data.secureUrl, data.file])
 
   return (
     <Box
@@ -53,18 +54,19 @@ function SortableImage({ id, data, index, onRemove }) {
         bgcolor: "background.paper",
       }}
     >
-      <Box
-        component="img"
-        src={preview}
-        alt={data.type === "existing" ? "Product image" : data.file.name}
-        sx={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          display: "block",
-        }}
-      />
-
+      {preview && (
+        <Box
+          component="img"
+          src={preview}
+          alt={data.type === "existing" ? "Product image" : data.file.name}
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+      )}
       {/* Drag handle */}
       <IconButton
         {...listeners}

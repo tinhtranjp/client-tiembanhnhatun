@@ -22,3 +22,10 @@ export const statusOptions = [
   { value: "cancelled", label: "CANCELLED" },
   { value: "return", label: "RETURN" },
 ]
+
+export const contactChanelOptions = [
+  { value: "FACEBOOK", label: "Facebook" },
+  { value: "ZALO", label: "Zalo" },
+  { value: "STORE", label: "Cửa hàng" },
+  { value: "PHONE", label: "Số điện thoại" },
+]

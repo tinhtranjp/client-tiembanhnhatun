@@ -5,11 +5,11 @@ import Button from "@mui/material/Button"
 import RHFNumberCustom from "@/components/form/fields/RHFNumberCustom"
 import RHFImageUpload from "@/components/form/fields/RHFImageUpload"
 import { Box } from "@mui/material"
-import { hatSchema } from "../service/schema"
+import { hatCreateSchema } from "../service/schema"
 
 function FormHat({ onSubmit }) {
   const methods = useForm({
-    resolver: zodResolver(hatSchema),
+    resolver: zodResolver(hatCreateSchema),
     defaultValues: { name: "", price: undefined, status: "AVAILABLE", thumbnail: null },
   })
 

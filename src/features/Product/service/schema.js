@@ -25,13 +25,10 @@ export const createProductSchema = z.object({
   size: z.string().max(50, "Kích thước tối đa 50 ký tự").nullable().optional(),
 
   layers: z.string().max(50, "Kích thước tối đa 50 ký tự").nullable().optional(),
-
   embeddingText: z
     .string()
     .min(1, "Nội dung tìm kiếm AI không được để trống")
     .max(5000, "Nội dung tìm kiếm AI tối đa 5000 ký tự"),
-
-  categoryIds: z.array(z.number().int().positive()).min(1, "Sản phẩm phải có ít nhất một thể loại"),
 
   themeIds: z.array(z.number().int().positive()).min(1, "Sản phẩm phải có ít nhất một chủ đề"),
 })

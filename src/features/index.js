@@ -3,10 +3,6 @@ export { default as LayoutRoute } from "../components/layout/LayoutRoute.jsx"
 
 export { default as Home } from "./Home/Home.tsx"
 
-// Category
-export { default as Category } from "@/features/Category/Category.jsx"
-export { default as ReoderCategory } from "@/features/Category/ReoderCategory.jsx"
-
 // Theme
 export { default as Theme } from "@/features/Theme/Theme.jsx"
 export { default as ReorderTheme } from "@/features/Theme/ReorderTheme.jsx"
@@ -31,3 +27,10 @@ export { default as Memo } from "@/features/Memo/Memo.jsx"
 export { default as AddMemo } from "@/features/Memo/AddMemo.jsx"
 export { default as UpdateMemo } from "@/features/Memo/UpdateMemo.jsx"
 export { default as Detail } from "@/features/Memo/Detail.jsx"
+
+// Order
+export { default as Order } from "@/features/Order/Order.jsx"
+export { default as AddOrder } from "@/features/Order/AddOrder.jsx"
+export { default as UpdateOrder } from "@/features/Order/UpdateOrder.jsx"
+export { default as OrderDetail } from "@/features/Order/OrderDetailPage.jsx"
+export { default as CakeBaseSummary } from "@/features/Order/CakeBaseSummary.jsx"

@@ -128,17 +128,17 @@ function ProductCard({ product }) {
           flexWrap="wrap"
           useFlexGap
         >
-          {product.size && (
+          {product.layers && (
             <Chip
-              label={product.size}
+              label={product.layers}
               size="small"
               sx={{ borderRadius: 1.5 }}
             />
           )}
 
-          {product.layers && (
+          {product.size && (
             <Chip
-              label={product.layers}
+              label={product.size}
               size="small"
               sx={{ borderRadius: 1.5 }}
             />
