@@ -14,11 +14,7 @@ export default function UpdateOrder() {
   const mutation = useOrdersUpdate()
 
   const handleSubmit = async (data) => {
-    try {
-      await mutation.mutateAsync({ id, data })
-    } catch (error) {
-      console.log(error)
-    }
+    await mutation.mutateAsync({ id, data })
   }
   const handleOnBackPage = () => {
     navigate(location.state?.from ?? "/product/list")

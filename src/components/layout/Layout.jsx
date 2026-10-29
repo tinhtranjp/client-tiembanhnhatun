@@ -83,7 +83,6 @@ function DashboardLayout({ children }) {
   const location = useLocation()
   const currentPath = location.pathname
   const isActive = (path) => currentPath === path
-  console.log(currentPath)
 
   return (
     <Box>

@@ -29,11 +29,7 @@ export default function UserForm() {
     mode: "all",
   })
 
-  console.log("methods", methods.formState.errors)
-
-  const onSubmit = (data) => {
-    console.log(data)
-  }
+  const onSubmit = (data) => {}
 
   return (
     <div className="justify-center items-center flex h-screen">

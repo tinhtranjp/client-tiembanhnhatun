@@ -26,10 +26,6 @@ function FormOrder({ onSubmit, product, initialData, mode = "create" }) {
   const { getMediaDiff } = useMediaDiff()
   const mappedData = initialData ? mapOrderToForm(initialData) : defaultValues
 
-  console.log("API id:", initialData?.id, typeof initialData?.id)
-  console.log("Mapped id:", mappedData.id, typeof mappedData.id)
-  console.log("Mapped item id:", mappedData.orderItems?.[0]?.id, typeof mappedData.orderItems?.[0]?.id)
-
   const methods = useForm({
     resolver: zodResolver(orderSchema),
     defaultValues: mappedData,
@@ -60,7 +56,6 @@ function FormOrder({ onSubmit, product, initialData, mode = "create" }) {
         activeImageIds,
         deleteImageIds,
       }
-      console.log("submitData ====>", submitData)
       const formData = buildOrderFormData(submitData)
       await onSubmit?.(formData)
       onBackPage()
@@ -74,7 +69,6 @@ function FormOrder({ onSubmit, product, initialData, mode = "create" }) {
   }
   const isShipping = methods.watch("isShipping")
 
-  console.log(methods.getValues("orderItems.0.unitPrice"))
   return (
     <Form
       methods={methods}

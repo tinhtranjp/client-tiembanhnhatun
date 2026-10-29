@@ -23,9 +23,9 @@ const initialFilters = {
 }
 
 const orderStatusOptions = [
-  { value: "PENDING", label: "Chờ xử lý" },
-  { value: "READY", label: "Sẵn sàng" },
-  { value: "DONE", label: "Hoàn thành" },
+  { value: "PENDING", label: "Chưa làm" },
+  { value: "READY", label: "Đã làm xong" },
+  { value: "DONE", label: "Đã giao hàng xong" },
   { value: "CANCEL", label: "Đã hủy" },
 ]
 
@@ -113,7 +113,10 @@ export default function OrderSearchFilters({ onTodayPickUp, onSearch, loading = 
       [name]: value,
     }))
   }
-
+  console.log("[OrderSearchFilters] query effect:", {
+    query: filters.query,
+    appliedFilters,
+  })
   const setSort = (name, value) => {
     setFilters((prev) => ({
       ...prev,
@@ -135,6 +138,9 @@ export default function OrderSearchFilters({ onTodayPickUp, onSearch, loading = 
       skipNextQuerySearch.current = false
       return
     }
+
+    // Chỉ tìm kiếm khi từ khóa thực sự khác từ khóa đã áp dụng.
+    if (filters.query === appliedFilters.query) return
 
     const timeout = setTimeout(() => {
       onSearch(
@@ -175,6 +181,7 @@ export default function OrderSearchFilters({ onTodayPickUp, onSearch, loading = 
   }
 
   const handleSearch = (event) => {
+    console.trace("[OrderSearchFilters] handleSearch")
     event?.preventDefault()
 
     if (hasCreatedDateError || hasPickupDateError) return
@@ -464,7 +471,7 @@ export default function OrderSearchFilters({ onTodayPickUp, onSearch, loading = 
               disabled={loading}
               onClick={handleTodayPickup}
             >
-              Hôm nay
+              Today
             </Button>
             <Button
               fullWidth
@@ -473,7 +480,7 @@ export default function OrderSearchFilters({ onTodayPickUp, onSearch, loading = 
               disabled={loading}
               onClick={handleReset}
             >
-              Xóa bộ lọc
+              Reset
             </Button>
             <Button
               fullWidth

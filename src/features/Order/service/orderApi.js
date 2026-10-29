@@ -12,4 +12,5 @@ export const orderApi = {
   togglePaymentStatus: (id) => axiosClient.patch(`/orders/${id}/payment-status`),
   toggleItemStatus: (id) => axiosClient.patch(`/orders/${id}/item-status`),
   cakeBaseSumary: () => axiosClient.get(`/orders/cake-summary`).then((res) => res.data),
+  countToday: () => axiosClient.get(`/orders/count-today`).then((res) => res.data),
 }

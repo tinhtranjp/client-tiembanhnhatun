@@ -22,10 +22,9 @@ import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded"
 import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined"
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined"
 import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined"
-import CakeIcon from "@mui/icons-material/Cake"
 import OrderSearchFilters from "./OrderSearchFilters"
-import { getStatusColor, orderStatusOptions, PAYMENT_MAP, STATUS_MAP } from "../service/helper"
-import { formatDate, formatMoney } from "@/helper/common"
+import { getStatusColor, orderStatusOptions, PAYMENT_MAP } from "../service/helper"
+import { formatDate, formatMoney, getToday } from "@/helper/common"
 import { useOrdersTogglePaymentStatus, useOrdersUpdateStatus } from "../service/mutation"
 import { useLocation, useNavigate } from "react-router-dom"
 import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined"
@@ -383,13 +382,18 @@ export default function OrderList({
   onLimitChange,
   onOrderClick,
   onTodayPickUp,
+  countToday,
 }) {
-  const [searchParams, setSearchParams] = useState({
+  const [searchParams, setSearchParams] = useState(() => ({
     page,
     limit,
-    orderBy: { field: "createdAt", direction: "desc" },
-  })
-
+    pickupFrom: getToday(),
+    pickupTo: getToday(),
+    orderBy: {
+      field: "pickupAt",
+      direction: "asc",
+    },
+  }))
   useEffect(() => {
     setSearchParams((prev) => ({ ...prev, page, limit }))
   }, [page, limit])
@@ -536,7 +540,22 @@ export default function OrderList({
           </Button>
         </Stack>
       </Stack>
-
+      {countToday && (
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          p={1}
+          bgcolor={"#444"}
+          color="white"
+          borderRadius={2}
+        >
+          <Typography>
+            {countToday?.total}/{countToday?.totalCount} đơn chưa làm.
+          </Typography>
+          <Typography>{formatDate(countToday?.pickupAt)}</Typography>
+        </Stack>
+      )}
       {/* Nội dung */}
       {loading ? (
         <Stack

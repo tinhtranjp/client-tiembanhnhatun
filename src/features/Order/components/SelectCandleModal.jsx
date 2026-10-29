@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Chip,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -59,14 +58,14 @@ export default function SelectCandleModal({
             variant="h6"
             fontWeight={700}
           >
-            Chọn nến
+            Chọn sản phẩm
           </Typography>
 
           <Typography
             variant="body2"
             color="text.secondary"
           >
-            Có {total} loại nến
+            Có {total} sản phẩm
           </Typography>
         </Box>
 
@@ -84,14 +83,14 @@ export default function SelectCandleModal({
             py={6}
             textAlign="center"
           >
-            <Typography color="text.secondary">Đang tải danh sách nến...</Typography>
+            <Typography color="text.secondary">Đang tải danh sản phẩm...</Typography>
           </Box>
         ) : candles.length === 0 ? (
           <Box
             py={6}
             textAlign="center"
           >
-            <Typography color="text.secondary">Chưa có loại nến nào.</Typography>
+            <Typography color="text.secondary">Chưa có sản phẩm nào.</Typography>
           </Box>
         ) : (
           <Box
@@ -160,7 +159,7 @@ export default function SelectCandleModal({
                       disabled={unavailable}
                       onClick={() => handleSelect(candle)}
                     >
-                      {isSelected ? "Đã chọn" : "Chọn nến"}
+                      {isSelected ? "Đã chọn" : "order"}
                     </Button>
                   </CardContent>
                 </Card>

@@ -1,7 +1,7 @@
 import { useController } from "react-hook-form"
 import { Box, Button, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-
+import { compressImage } from "@/helper/common"
 export default function RHFImageUpload({ name, label = "Ảnh", initialImage = null, accept = "image/*" }) {
   const { field, fieldState } = useController({ name })
 
@@ -13,16 +13,36 @@ export default function RHFImageUpload({ name, label = "Ảnh", initialImage = n
     setRemoved(false)
   }, [initialImage])
 
-  const handleChange = (event) => {
-    const file = event.target.files?.[0]
+  const handleChange = async (event) => {
+    const input = event.target
+    const file = input.files?.[0]
 
     if (!file) return
 
-    field.onChange(file)
-    setRemoved(false)
+    try {
+      let uploadFile = file
 
-    const url = URL.createObjectURL(file)
-    setPreview(url)
+      if (["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+        try {
+          const blob = await compressImage(file)
+
+          uploadFile = new File([blob], file.name.replace(/\.[^.]+$/, ".jpg"), {
+            type: blob.type || "image/jpeg",
+            lastModified: Date.now(),
+          })
+        } catch (error) {
+          console.error("Nén ảnh thất bại:", error)
+        }
+      }
+
+      field.onChange(uploadFile)
+      setRemoved(false)
+
+      const url = URL.createObjectURL(uploadFile)
+      setPreview(url)
+    } finally {
+      input.value = ""
+    }
   }
 
   const handleRemove = () => {

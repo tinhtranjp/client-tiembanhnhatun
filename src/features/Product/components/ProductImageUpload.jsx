@@ -3,14 +3,27 @@ import { Box, Button, IconButton, Typography } from "@mui/material"
 import { AddPhotoAlternate, Close, DragIndicator } from "@mui/icons-material"
 
 import { DndContext, closestCenter } from "@dnd-kit/core"
-
 import { SortableContext, useSortable, rectSortingStrategy, arrayMove } from "@dnd-kit/sortable"
-
 import { CSS } from "@dnd-kit/utilities"
+
+import { compressImage } from "@/helper/common"
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024
 
-const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp"]
+const ACCEPTED_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/avif",
+  "image/gif",
+  "image/bmp",
+  "image/svg+xml",
+  "image/tiff",
+  "image/heic",
+  "image/heif",
+]
+
+const COMPRESSIBLE_TYPES = ["image/jpeg", "image/png", "image/webp"]
 
 function SortableImage({ id, data, index, onRemove }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
@@ -22,6 +35,7 @@ function SortableImage({ id, data, index, onRemove }) {
     transition,
     touchAction: "none",
   }
+
   useEffect(() => {
     if (data.type === "existing") {
       setPreview(data.secureUrl || null)
@@ -67,7 +81,7 @@ function SortableImage({ id, data, index, onRemove }) {
           }}
         />
       )}
-      {/* Drag handle */}
+
       <IconButton
         {...listeners}
         size="small"
@@ -77,7 +91,6 @@ function SortableImage({ id, data, index, onRemove }) {
           left: 6,
           color: "white",
           bgcolor: "rgba(0,0,0,.45)",
-
           "&:hover": {
             bgcolor: "rgba(0,0,0,.65)",
           },
@@ -86,7 +99,6 @@ function SortableImage({ id, data, index, onRemove }) {
         <DragIndicator fontSize="small" />
       </IconButton>
 
-      {/* Thumbnail */}
       {index === 0 && (
         <Typography
           variant="caption"
@@ -105,7 +117,6 @@ function SortableImage({ id, data, index, onRemove }) {
         </Typography>
       )}
 
-      {/* Remove */}
       <IconButton
         size="small"
         onClick={() => onRemove(index)}
@@ -114,7 +125,6 @@ function SortableImage({ id, data, index, onRemove }) {
           top: 6,
           right: 6,
           bgcolor: "background.paper",
-
           "&:hover": {
             bgcolor: "background.paper",
           },
@@ -128,42 +138,12 @@ function SortableImage({ id, data, index, onRemove }) {
 
 export default function ProductImageUpload({ value = [], onChange }) {
   const inputRef = useRef(null)
-
   const [items, setItems] = useState([])
 
-  /*
-   * Đồng bộ value từ bên ngoài vào state nội bộ.
-   *
-   * Create:
-   * value = [File, File]
-   *
-   * Update:
-   * value = [
-   *   {
-   *     id: 1,
-   *     secureUrl: "...",
-   *     type: "existing",
-   *   },
-   * ]
-   *
-   * Sau khi thêm ảnh mới:
-   * value = [
-   *   {
-   *     id: 1,
-   *     secureUrl: "...",
-   *     type: "existing",
-   *   },
-   *   {
-   *     file: File,
-   *     type: "new",
-   *   },
-   * ]
-   */
   useEffect(() => {
     setItems(
       value
         .map((item, index) => {
-          // Existing image
           if (item?.type === "existing") {
             return {
               id: `existing-${item.id}`,
@@ -171,7 +151,6 @@ export default function ProductImageUpload({ value = [], onChange }) {
             }
           }
 
-          // New image
           if (item?.type === "new") {
             return {
               id: item.id ?? `new-${item.file.name}-${item.file.size}-${index}`,
@@ -179,8 +158,6 @@ export default function ProductImageUpload({ value = [], onChange }) {
             }
           }
 
-          // Backward compatible với Create hiện tại
-          // đang truyền File[]
           if (item instanceof File) {
             return {
               id: `new-${item.name}-${item.size}-${index}`,
@@ -197,28 +174,70 @@ export default function ProductImageUpload({ value = [], onChange }) {
     )
   }, [value])
 
-  const addFiles = (files) => {
-    const validFiles = Array.from(files).filter((file) => {
+  const addFiles = async (files) => {
+    const validFiles = Array.from(files ?? []).filter((file) => {
       return ACCEPTED_TYPES.includes(file.type) && file.size <= MAX_FILE_SIZE
     })
 
-    if (!validFiles.length) {
-      return
-    }
+    if (!validFiles.length) return
 
-    const newItems = validFiles.map((file) => ({
-      file,
-      type: "new",
-    }))
+    const newItems = await Promise.all(
+      validFiles.map(async (file) => {
+        // Các định dạng không hỗ trợ nén sẽ giữ nguyên file gốc.
+        if (!COMPRESSIBLE_TYPES.includes(file.type)) {
+          return {
+            file,
+            type: "new",
+          }
+        }
+
+        try {
+          const blob = await compressImage(file)
+          const mimeType = blob.type || file.type
+
+          // Đồng bộ phần mở rộng với định dạng ảnh sau nén.
+          const extension =
+            mimeType === "image/jpeg"
+              ? ".jpg"
+              : mimeType === "image/png"
+                ? ".png"
+                : mimeType === "image/webp"
+                  ? ".webp"
+                  : ""
+
+          const baseName = file.name.replace(/\.[^.]+$/, "")
+          const compressedFile = new File([blob], extension ? `${baseName}${extension}` : file.name, {
+            type: mimeType,
+            lastModified: Date.now(),
+          })
+
+          return {
+            file: compressedFile,
+            type: "new",
+          }
+        } catch (error) {
+          console.error("Nén ảnh thất bại:", file.name, error)
+
+          // Nén lỗi thì vẫn sử dụng ảnh gốc.
+          return {
+            file,
+            type: "new",
+          }
+        }
+      }),
+    )
 
     onChange([...value, ...newItems])
   }
 
-  const handleInputChange = (event) => {
-    addFiles(event.target.files)
+  const handleInputChange = async (event) => {
+    const input = event.target
 
-    // Cho phép chọn lại cùng một file
-    event.target.value = ""
+    try {
+      await addFiles(input.files)
+    } finally {
+      input.value = ""
+    }
   }
 
   const handleDrop = (event) => {
@@ -234,22 +253,16 @@ export default function ProductImageUpload({ value = [], onChange }) {
   }
 
   const handleDragEnd = ({ active, over }) => {
-    if (!over || active.id === over.id) {
-      return
-    }
+    if (!over || active.id === over.id) return
 
     const oldIndex = items.findIndex((item) => item.id === active.id)
-
     const newIndex = items.findIndex((item) => item.id === over.id)
 
-    if (oldIndex === -1 || newIndex === -1) {
-      return
-    }
+    if (oldIndex === -1 || newIndex === -1) return
 
     const newItems = arrayMove(items, oldIndex, newIndex)
 
     setItems(newItems)
-
     onChange(newItems.map((item) => item.data))
   }
 
@@ -257,7 +270,6 @@ export default function ProductImageUpload({ value = [], onChange }) {
     const newItems = items.filter((_, itemIndex) => itemIndex !== index)
 
     setItems(newItems)
-
     onChange(newItems.map((item) => item.data))
   }
 
@@ -271,7 +283,6 @@ export default function ProductImageUpload({ value = [], onChange }) {
         Ảnh sản phẩm
       </Typography>
 
-      {/* Upload area */}
       <Box
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -283,7 +294,6 @@ export default function ProductImageUpload({ value = [], onChange }) {
           p: 3,
           textAlign: "center",
           cursor: "pointer",
-
           "&:hover": {
             borderColor: "primary.main",
             bgcolor: "action.hover",
@@ -323,12 +333,11 @@ export default function ProductImageUpload({ value = [], onChange }) {
           type="file"
           hidden
           multiple
-          accept="image/jpeg,image/png,image/webp"
+          accept="image/*"
           onChange={handleInputChange}
         />
       </Box>
 
-      {/* Images */}
       {items.length > 0 && (
         <DndContext
           collisionDetection={closestCenter}
@@ -368,7 +377,7 @@ export default function ProductImageUpload({ value = [], onChange }) {
           mt: 1,
         }}
       >
-        JPG, PNG, WEBP · tối đa 5MB / ảnh · ảnh đầu tiên là thumbnail
+        JPG, PNG, WEBP và các định dạng ảnh được hỗ trợ · tối đa 5MB / ảnh · ảnh đầu tiên là thumbnail
       </Typography>
     </Box>
   )

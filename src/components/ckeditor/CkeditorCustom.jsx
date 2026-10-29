@@ -92,7 +92,7 @@ import { useState, forwardRef, useImperativeHandle } from "react"
 import { EmojiSpecialCharacters } from "./EmojiSpecialCharacters"
 import { colors, headings, styles } from "./common"
 import { mediaApi } from "@/features/Media/service/mediaApi"
-
+import { compressImage } from "@/helper/common"
 const CkeditorCustom = forwardRef(function CkeditorCustom(
   { folder, label = "Mô tả", relatedType, imageType, messError, onChange, value, height = "100px", scrollable = false },
   ref,
@@ -115,31 +115,41 @@ const CkeditorCustom = forwardRef(function CkeditorCustom(
     editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
       return {
         upload() {
-          return loader.file.then((file) => {
-            return mediaApi
-              .uploadCkeditorImage(file, {
-                folder,
-                relatedType,
-                imageType,
-              })
-              .then((res) => {
-                const media = {
-                  id: res.data.id,
-                  url: res.data.secure_url,
-                }
+          return loader.file.then(async (file) => {
+            let uploadFile = file
 
-                setUploadMedia((prev) => {
-                  const next = [...prev, media]
-                  return next
+            if (["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+              try {
+                const blob = await compressImage(file)
+
+                uploadFile = new File([blob], file.name.replace(/\.[^.]+$/, ".jpg"), {
+                  type: blob.type || "image/jpeg",
+                  lastModified: Date.now(),
                 })
+              } catch (error) {
+                console.error("Nén ảnh CKEditor thất bại:", error)
+                // Nén lỗi thì dùng ảnh gốc
+              }
+            }
 
-                return {
-                  default: res.data.secure_url,
-                }
-              })
+            const res = await mediaApi.uploadCkeditorImage(uploadFile, {
+              folder,
+              relatedType,
+              imageType,
+            })
+
+            const media = {
+              id: res.data.id,
+              url: res.data.secure_url,
+            }
+
+            setUploadMedia((prev) => [...prev, media])
+
+            return {
+              default: res.data.secure_url,
+            }
           })
         },
-
         abort() {},
       }
     }

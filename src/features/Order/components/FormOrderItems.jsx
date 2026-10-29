@@ -41,7 +41,7 @@ export default function FormOrderItems({ initialData }) {
     setValue,
     formState: { errors },
   } = useFormContext()
-  console.log(errors)
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "orderItems",

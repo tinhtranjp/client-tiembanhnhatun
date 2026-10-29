@@ -37,7 +37,6 @@ function Memo() {
     limit: 10,
   })
 
-  console.log(data)
   const deleteMutation = useMemoDelete()
 
   const debouncedSearch = useMemo(

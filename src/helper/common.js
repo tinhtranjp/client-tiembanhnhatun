@@ -1,3 +1,4 @@
+import imageCompression from "browser-image-compression"
 export const formatMoney = (value) =>
   new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -19,4 +20,28 @@ export const formatDate = (value) => {
     hour: "2-digit",
     minute: "2-digit",
   }).format(date)
+}
+
+export async function compressImage(file) {
+  if (!file.type.startsWith("image/")) {
+    return file
+  }
+
+  return imageCompression(file, {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1600,
+    initialQuality: 0.88,
+    useWebWorker: true,
+    fileType: "image/jpeg",
+  })
+}
+
+export const getToday = () => {
+  const today = new Date()
+
+  return [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0"),
+  ].join("-")
 }

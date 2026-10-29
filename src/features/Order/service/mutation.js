@@ -31,6 +31,9 @@ export function useOrdersUpdate() {
         queryKey: orderKeys.all,
       })
     },
+    onError: (error) => {
+      getToastError(error)
+    },
   })
 }
 function updateOrderInCache(oldData, id, changes) {

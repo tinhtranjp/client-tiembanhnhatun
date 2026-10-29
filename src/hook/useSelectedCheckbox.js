@@ -3,7 +3,6 @@ import { useState } from "react"
 function useSelectedCheckbox() {
   const [selected, setSelected] = useState([])
   const handleSelectAllClick = (event, rows) => {
-    console.log("handleSelectAllClick", event.target.checked, rows)
     if (event.target.checked) {
       setSelected(rows.map((n) => n.id))
     } else {

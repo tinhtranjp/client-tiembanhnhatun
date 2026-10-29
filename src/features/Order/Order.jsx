@@ -5,28 +5,35 @@ import { useQuery } from "@tanstack/react-query"
 import OrderList from "./components/OrderList"
 import { orderApi } from "./service/orderApi"
 import { useNavigate } from "react-router-dom"
-import { orderKeys } from "./service/queries"
+import { orderKeys, useGetCountToday } from "./service/queries"
+import { getToday } from "@/helper/common"
 
 export default function OrderPage() {
-  const [params, setParams] = useState({
-    page: 1,
-    limit: 10,
-    orderBy: {
-      field: "createdAt",
-      direction: "desc",
-    },
-  })
+  const [params, setParams] = useState(() => {
+    const today = getToday()
 
+    return {
+      page: 1,
+      limit: 10,
+      pickupFrom: today,
+      pickupTo: today,
+      orderBy: {
+        field: "pickupAt",
+        direction: "asc",
+      },
+    }
+  })
   const { data, isFetching } = useQuery({
     queryKey: orderKeys.list(params),
     queryFn: () => orderApi.search(params),
     placeholderData: (previousData) => previousData,
   })
-
+  const { data: countToday } = useGetCountToday()
   // Điều chỉnh hai dòng dưới theo response thực tế của API.
   const orders = data?.items ?? []
   const total = data?.pagination?.total ?? 0
   const updateParams = (next) => {
+    console.trace("[OrderPage] updateParams:", next)
     setParams(next)
   }
 
@@ -43,6 +50,7 @@ export default function OrderPage() {
     })
   }
   const navigate = useNavigate()
+
   return (
     <Box sx={{ p: { xs: 1.5, sm: 2.5 }, maxWidth: 900, mx: "auto" }}>
       <OrderList
@@ -53,6 +61,7 @@ export default function OrderPage() {
         limit={params.limit}
         loading={isFetching}
         onSearch={updateParams}
+        countToday={countToday?.data}
         onPageChange={(_, next) => {
           if (typeof next === "object") updateParams(next)
         }}
