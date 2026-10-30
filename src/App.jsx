@@ -13,9 +13,11 @@ import {
   Theme,
   LayoutRoute,
   UpdateProduct,
+  ProductDetail,
   Home,
   ReorderTheme,
   AddProduct,
+  UploadVideo,
   Product,
   Hat,
   AddHat,
@@ -35,6 +37,7 @@ import {
 } from "./features"
 import ScrollToTop from "./hook/ScrollToTop"
 import ImageZoomDialog from "./components/common/ImageZoomDiaLog"
+import TestVideoUpload from "./features/TestVideoUpload"
 const theme = createTheme({
   typography: {
     fontFamily: 'Roboto, "Helvetica", "Arial", sans-serif',
@@ -75,6 +78,14 @@ function App() {
               <Route
                 element={<Product />}
                 path="/product/list"
+              />
+              <Route
+                element={<ProductDetail />}
+                path="/product/:id/detail"
+              />
+              <Route
+                element={<UploadVideo />}
+                path="/product/:id/upload-video"
               />
               // Hat
               <Route
@@ -139,6 +150,10 @@ function App() {
               <Route
                 element={<CakeBaseSummary />}
                 path="/order/cakebase-summary"
+              />
+              <Route
+                element={<TestVideoUpload />}
+                path="/video"
               />
               <Route
                 path="*"

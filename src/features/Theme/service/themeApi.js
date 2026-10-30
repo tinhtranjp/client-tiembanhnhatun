@@ -5,4 +5,5 @@ export const themeApi = {
   add: (data) => axiosClient.post("/themes", data),
   update: (id, data) => axiosClient.put("/themes/" + id, data),
   reorder: (data) => axiosClient.put("/themes/reorder", data),
+  getByIds: (ids) => axiosClient.post("/themes/get-by-ids", { ids }).then((res) => res.data),
 }

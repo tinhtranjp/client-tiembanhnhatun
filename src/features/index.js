@@ -11,6 +11,8 @@ export { default as ReorderTheme } from "@/features/Theme/ReorderTheme.jsx"
 export { default as AddProduct } from "@/features/Product/AddProduct.jsx"
 export { default as Product } from "@/features/Product/Product.jsx"
 export { default as UpdateProduct } from "@/features/Product/UpdateProduct.jsx"
+export { default as ProductDetail } from "@/features/Product/ProductDetailPage.jsx"
+export { default as UploadVideo } from "@/features/Product/UploadVideo.jsx"
 
 // Hat
 export { default as Hat } from "@/features/Hat/Hat.jsx"

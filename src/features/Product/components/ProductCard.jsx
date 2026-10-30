@@ -2,6 +2,7 @@ import { Box, Card, CardContent, Chip, Divider, IconButton, Stack, Typography } 
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
 import { useNavigate } from "react-router-dom"
+import ActionMenu from "./ActionMenu"
 
 function ProductCard({ product }) {
   const navigate = useNavigate()
@@ -76,10 +77,7 @@ function ProductCard({ product }) {
               </Typography>
             </Box>
           </Stack>
-
-          <IconButton size="small">
-            <MoreHorizIcon fontSize="small" />
-          </IconButton>
+          <ActionMenu product={product} />
         </Stack>
 
         {/* Price */}
