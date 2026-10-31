@@ -24,4 +24,5 @@ export const productApi = {
 
   getDetail: (id) => axiosClient.get("/products/" + id).then((res) => res.data),
   update: (id, data) => axiosClient.put(`/products/${id}`, data),
+  deleteMedia: (id) => axiosClient.delete(`/medias/${id}`),
 }

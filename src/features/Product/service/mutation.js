@@ -38,3 +38,19 @@ export function useProductUpdate() {
     },
   })
 }
+
+export function useProductDeleteMedia() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id }) => productApi.deleteMedia(id),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: productKeys.all,
+      })
+
+      toast.success("Xóa video thành công")
+    },
+  })
+}

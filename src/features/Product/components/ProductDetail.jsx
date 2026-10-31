@@ -7,6 +7,7 @@ import SellIcon from "@mui/icons-material/Sell"
 import LayersIcon from "@mui/icons-material/Layers"
 import SearchIcon from "@mui/icons-material/Search"
 import { useThemeGetByIds } from "@/features/Theme/service/queries"
+import { useProductDeleteMedia } from "../service/mutation"
 
 function InfoItem({ label, value, icon }) {
   return (
@@ -81,6 +82,18 @@ function MediaSection({ media = [], onUpdateVideo }) {
   const images = media.filter((item) => item.resourceType === "image")
 
   const videos = media.filter((item) => item.resourceType === "video")
+  const deleteMutation = useProductDeleteMedia()
+
+  const handleDeleteMedia = async (id) => {
+    console.log(id)
+    try {
+      if (window.confirm("Bạn có chắc muốn xóa video không ?")) {
+        await deleteMutation.mutateAsync({ id })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <Stack spacing={3}>
@@ -231,7 +244,7 @@ function MediaSection({ media = [], onUpdateVideo }) {
                     size="small"
                     color="error"
                     variant="contained"
-                    onClick={() => console.log("handle delete video")}
+                    onClick={() => handleDeleteMedia(video.id)}
                   >
                     Xóa
                   </Button>
