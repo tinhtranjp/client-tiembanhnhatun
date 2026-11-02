@@ -1,10 +1,12 @@
-import { Box, IconButton, Pagination, Stack, TextField, Typography } from "@mui/material"
+import { Box, Button, IconButton, Pagination, Stack, TextField, Typography } from "@mui/material"
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import AddRoundedIcon from "@mui/icons-material/AddRounded"
 import { useEffect, useState } from "react"
 import { useGetProductList } from "./service/queries"
 import ProductCard from "./components/ProductCard"
 import { useNavigate } from "react-router-dom"
+import { useCollectionGetAll } from "../Collection/service/querries"
+import useOnBackPage from "@/hook/useOnBackPage"
 const LIMIT = 10
 function Product() {
   const [search, setSearch] = useState("")
@@ -26,6 +28,7 @@ function Product() {
     page,
     limit: LIMIT,
   })
+  const { data: collections } = useCollectionGetAll()
 
   const products = data?.data?.data ?? []
   const total = data?.data?.total ?? 0
@@ -34,7 +37,7 @@ function Product() {
   const handlePageChange = (_, value) => {
     setPage(value)
   }
-
+  const onBackPage = useOnBackPage("/product/list")
   return (
     <Box
       sx={{
@@ -51,23 +54,37 @@ function Product() {
         alignItems={{ xs: "stretch", sm: "center" }}
         sx={{ mb: 2.5 }}
       >
-        <Box>
-          <Typography
-            variant="h5"
-            fontWeight={800}
-            sx={{ letterSpacing: "-0.02em" }}
-          >
-            Sản phẩm
-          </Typography>
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+        >
+          <Box>
+            <Typography
+              variant="h5"
+              fontWeight={800}
+              sx={{ letterSpacing: "-0.02em" }}
+            >
+              Sản phẩm
+            </Typography>
 
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ mt: 0.5 }}
-          >
-            Quản lý sản phẩm và nội dung AI tìm kiếm
-          </Typography>
-        </Box>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ mt: 0.5 }}
+            >
+              Quản lý sản phẩm và nội dung AI tìm kiếm
+            </Typography>
+          </Box>
+          <Box>
+            <Button
+              size="small"
+              onClick={onBackPage}
+              variant="contained"
+            >
+              Quay lại
+            </Button>
+          </Box>
+        </Stack>
 
         <Stack
           direction="row"
@@ -149,6 +166,7 @@ function Product() {
               <ProductCard
                 key={product.id}
                 product={product}
+                collections={collections}
               />
             ))}
           </Box>

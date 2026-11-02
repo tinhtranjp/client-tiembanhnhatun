@@ -36,3 +36,6 @@ export { default as AddOrder } from "@/features/Order/AddOrder.jsx"
 export { default as UpdateOrder } from "@/features/Order/UpdateOrder.jsx"
 export { default as OrderDetail } from "@/features/Order/OrderDetailPage.jsx"
 export { default as CakeBaseSummary } from "@/features/Order/CakeBaseSummary.jsx"
+
+// Collections page
+export { default as CollectionsPage } from "@/features/Collection/CollectionsPage.jsx"

@@ -6,7 +6,7 @@ import { createProductSchema } from "../service/schema"
 import RHFNumberCustom from "@/components/form/fields/RHFNumberCustom"
 import RHFCkeditor from "@/components/form/fields/RHFCkeditor"
 import { useThemeGetAll } from "@/features/Theme/service/queries"
-import { sizeCakes, layers, cakeBaseOptions } from "../helper"
+import { sizeCakes, layers } from "../helper"
 import { Box } from "@mui/material"
 
 import { useState } from "react"

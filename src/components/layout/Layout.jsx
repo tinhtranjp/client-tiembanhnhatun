@@ -29,8 +29,16 @@ const menuItems = [
     title: "Sản phẩm",
     type: "parent",
     children: [
-      { title: "List", type: "link", url: "/product/list" },
-      { title: "Add", type: "link", url: "/product/add" },
+      { title: "list", type: "link", url: "/product/list" },
+      { title: "add", type: "link", url: "/product/add" },
+    ],
+  },
+  {
+    title: "Page view",
+    type: "parent",
+    children: [
+      { title: "list", type: "link", url: "/collection/list" },
+      { title: "add", type: "link", url: "/product/add" },
     ],
   },
   {

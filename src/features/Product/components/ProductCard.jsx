@@ -1,10 +1,11 @@
 import { Box, Card, CardContent, Chip, Divider, IconButton, Stack, Typography } from "@mui/material"
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
 import { useNavigate } from "react-router-dom"
+import AddIcon from "@mui/icons-material/Add"
 import ActionMenu from "./ActionMenu"
 
-function ProductCard({ product }) {
+function ProductCard({ product, collections }) {
+  console.log("pc collections", collections)
   const navigate = useNavigate()
   return (
     <Card
@@ -77,7 +78,10 @@ function ProductCard({ product }) {
               </Typography>
             </Box>
           </Stack>
-          <ActionMenu product={product} />
+          <ActionMenu
+            product={product}
+            collections={collections}
+          />
         </Stack>
 
         {/* Price */}
