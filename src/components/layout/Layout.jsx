@@ -10,6 +10,14 @@ import { useLocation } from "react-router-dom"
 const menuItems = [
   { title: "Dashboard", type: "link", url: "/" },
   {
+    title: "Page view",
+    type: "parent",
+    children: [
+      { title: "list", type: "link", url: "/collection/list" },
+      { title: "add", type: "link", url: "/product/add" },
+    ],
+  },
+  {
     title: "Đơn hàng",
     type: "parent",
     children: [
@@ -30,14 +38,6 @@ const menuItems = [
     type: "parent",
     children: [
       { title: "list", type: "link", url: "/product/list" },
-      { title: "add", type: "link", url: "/product/add" },
-    ],
-  },
-  {
-    title: "Page view",
-    type: "parent",
-    children: [
-      { title: "list", type: "link", url: "/collection/list" },
       { title: "add", type: "link", url: "/product/add" },
     ],
   },
