@@ -12,6 +12,7 @@ const orderImageSchema = z.discriminatedUnion("type", [
     url: z.string(),
   }),
 ])
+
 export const orderItemSchema = z.object({
   id: z.number().int().positive().optional(),
   productId: z.number().int().positive().optional(),

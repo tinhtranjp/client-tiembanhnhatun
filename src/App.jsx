@@ -10,11 +10,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Toaster } from "sonner"
 import GlobalModal from "./components/common/GlobalModal"
 import {
+  OverView,
   Theme,
   LayoutRoute,
   UpdateProduct,
   ProductDetail,
-  Home,
   ReorderTheme,
   AddProduct,
   UploadVideo,
@@ -55,7 +55,7 @@ function App() {
           <Routes>
             <Route element={<LayoutRoute />}>
               <Route
-                element={<Home />}
+                element={<OverView />}
                 path="/"
               />
               // Theme

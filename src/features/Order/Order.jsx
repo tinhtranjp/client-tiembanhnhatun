@@ -10,17 +10,24 @@ import { getToday } from "@/helper/common"
 
 export default function OrderPage() {
   const [params, setParams] = useState(() => {
-    const today = getToday()
+    // const today = getToday()
 
     return {
       page: 1,
       limit: 10,
-      pickupFrom: today,
-      pickupTo: today,
+
+      pickupFrom: undefined,
+      pickupTo: undefined,
       orderBy: {
-        field: "pickupAt",
-        direction: "asc",
+        field: "createdAt",
+        direction: "desc",
       },
+      // pickupFrom: today,
+      // pickupTo: today,
+      // orderBy: {
+      //   field: "pickupAt",
+      //   direction: "asc",
+      // },
     }
   })
   const { data, isFetching } = useQuery({

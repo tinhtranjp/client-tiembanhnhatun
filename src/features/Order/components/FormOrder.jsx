@@ -15,21 +15,28 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import dayjs from "dayjs"
 import "dayjs/locale/vi"
-import { buildOrderFormData, defaultValues, mapOrderToForm } from "../service/helper"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { buildOrderFormData, defaultValues } from "../service/helper"
+import { useLocation, useNavigate } from "react-router-dom"
+import { useEffect } from "react"
+import { getToastError } from "@/helper/erorApi"
 
-function FormOrder({ onSubmit, product, initialData, mode = "create" }) {
+function FormOrder({ onSubmit, initialData, mode = "create" }) {
   const editorRef = useRef(null)
   const location = useLocation()
   const navigate = useNavigate()
 
   const { getMediaDiff } = useMediaDiff()
-  const mappedData = initialData ? mapOrderToForm(initialData) : defaultValues
 
   const methods = useForm({
     resolver: zodResolver(orderSchema),
-    defaultValues: mappedData,
+    defaultValues: defaultValues,
   })
+  console.log(methods.formState.errors)
+  useEffect(() => {
+    if (initialData) {
+      methods.reset(initialData)
+    }
+  }, [initialData, methods.reset])
 
   const onSubmitForm = async (data) => {
     try {
@@ -60,7 +67,7 @@ function FormOrder({ onSubmit, product, initialData, mode = "create" }) {
       await onSubmit?.(formData)
       onBackPage()
     } catch (error) {
-      console.log(error)
+      getToastError(error)
     }
   }
 
@@ -132,7 +139,7 @@ function FormOrder({ onSubmit, product, initialData, mode = "create" }) {
                 }}
                 format="DD/MM/YYYY HH:mm"
                 ampm={false}
-                minDateTime={dayjs()}
+                minDateTime={mode === "create" ? dayjs() : undefined}
                 slotProps={{
                   textField: {
                     fullWidth: true,

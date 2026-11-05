@@ -6,7 +6,7 @@ import { createProductSchema } from "../service/schema"
 import RHFNumberCustom from "@/components/form/fields/RHFNumberCustom"
 import RHFCkeditor from "@/components/form/fields/RHFCkeditor"
 import { useThemeGetAll } from "@/features/Theme/service/queries"
-import { sizeCakes, layers } from "../helper"
+import { sizeCakes, layers, cakeBaseOptions } from "../helper"
 import { Box } from "@mui/material"
 
 import { useState } from "react"
@@ -34,6 +34,7 @@ function FormProduct({ onSubmit }) {
       minPrice: undefined,
       maxPrice: undefined,
       currentPrice: undefined,
+      baseCake: "",
       size: "10cm",
       layers: "1 tầng",
       embeddingText: "",
@@ -82,6 +83,11 @@ function FormProduct({ onSubmit }) {
           name={"size"}
           label={"Size bánh"}
           options={sizeCakes}
+        />
+        <AutocompleteField
+          name={`baseCake`}
+          label="Vị bánh"
+          options={cakeBaseOptions}
         />
         <RHFNumberCustom
           name="minPrice"

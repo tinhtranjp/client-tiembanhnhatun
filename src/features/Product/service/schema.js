@@ -15,7 +15,7 @@ export const createProductSchema = z.object({
       error: "Giá cao nhất không được để trống",
     })
     .nonnegative("Giá cao nhất không được âm"),
-
+  baseCake: z.string().max(50, "Kích thước tối đa 50 ký tự").nullable().optional(),
   currentPrice: z
     .number({
       error: "Giá hiện tại không được để trống",

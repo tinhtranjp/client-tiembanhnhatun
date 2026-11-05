@@ -4,27 +4,34 @@ export function buildOrderFormData(data) {
   const order = {
     ...data,
 
-    orderItems: data.orderItems.map((item, itemIndex) => ({
-      ...item,
+    orderItems: data.orderItems.map((item, itemIndex) => {
+      // Item thuộc sản phẩm có sẵn: dùng ảnh của sản phẩm, không gửi ảnh lên
+      if (item.productId != null) {
+        return { ...item, images: [] }
+      }
 
-      images: item.images.map((image, imageIndex) => {
-        if (image.type === "new" && image.file instanceof File) {
-          const fileKey = `image_${itemIndex}_${imageIndex}`
+      return {
+        ...item,
 
-          formData.append(fileKey, image.file)
+        images: (item.images ?? []).map((image, imageIndex) => {
+          if (image.type === "new" && image.file instanceof File) {
+            const fileKey = `image_${itemIndex}_${imageIndex}`
 
-          // Chỉ gửi metadata, không gửi object File trong JSON
-          return {
-            id: image.id,
-            type: "new",
-            fileKey,
+            formData.append(fileKey, image.file)
+
+            // Chỉ gửi metadata, không gửi object File trong JSON
+            return {
+              id: String(image.id),
+              type: "new",
+              fileKey,
+            }
           }
-        }
 
-        // Ảnh đã tồn tại, nếu có
-        return image
-      }),
-    })),
+          // Ảnh đã tồn tại, ép id về string cho khớp schema BE
+          return { ...image, id: String(image.id) }
+        }),
+      }
+    }),
   }
 
   formData.append("order", JSON.stringify(order))
@@ -61,6 +68,26 @@ export const defaultValues = {
     },
   ],
 }
+export const mapProductToOrderItem = (product) => ({
+  productId: product.id,
+  productName: product.name ?? "",
+  description: product.description ?? "",
+  size: product.size ?? "",
+  layers: product.layers ?? "",
+  cakeBase: product.baseCake ?? "",
+  itemStatus: "COMPLETED",
+  unitPrice: product.currentPrice ?? undefined,
+  quantity: 1,
+  subtotal: undefined,
+  candleId: undefined,
+  hatId: undefined,
+  birthdayMessage: "",
+  images: (product.medias ?? []).map((image) => ({
+    id: image.id,
+    type: "existing",
+    url: image.secureUrl,
+  })),
+})
 
 export const mapOrderToForm = (order) => {
   return {
@@ -88,7 +115,7 @@ export const mapOrderToForm = (order) => {
       unitPrice: item.unitPrice != null ? Number(item.unitPrice) : undefined,
       quantity: item.quantity ?? 1,
       subtotal: item.subtotal ?? undefined,
-      candleId: item.candleId !== null ? Number(item.candleId) : undefined,
+      candleId: item.candleId != null ? Number(item.candleId) : undefined,
       candleNumber: item.candleNumber ?? "",
       hatId: item.hatId ? Number(item.hatId) : undefined,
       birthdayMessage: item.birthdayMessage ?? "",

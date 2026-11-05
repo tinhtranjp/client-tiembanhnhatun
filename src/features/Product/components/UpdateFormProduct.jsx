@@ -12,7 +12,7 @@ import RHFCkeditor from "@/components/form/fields/RHFCkeditor"
 
 import { useThemeGetAll } from "@/features/Theme/service/queries"
 
-import { sizeCakes, layers } from "../helper"
+import { sizeCakes, layers, cakeBaseOptions } from "../helper"
 
 import ProductImageUpload from "./ProductImageUpload"
 import { useMediaDiff } from "@/hook/useMediaDiff"
@@ -40,8 +40,7 @@ function UpdateFormProduct({ productDetail, onSubmit }) {
       currentPrice: undefined,
       size: "10cm",
       layers: "1 tầng",
-      cakeBase: "VANI",
-      embeddingText: "",
+      baseCake: "",
       themeIds: [],
     },
   })
@@ -57,7 +56,7 @@ function UpdateFormProduct({ productDetail, onSubmit }) {
       currentPrice: productDetail.currentPrice ?? undefined,
       size: productDetail.size ?? "10cm",
       layers: productDetail.layers ?? "1 tầng",
-      cakeBase: productDetail.cakeBase ?? "VANI",
+      baseCake: productDetail.baseCake ?? "",
       embeddingText: productDetail.embeddingText ?? "",
       themeIds: productDetail.themeIds ?? [],
     })
@@ -161,7 +160,11 @@ function UpdateFormProduct({ productDetail, onSubmit }) {
           label="Size bánh"
           options={sizeCakes}
         />
-
+        <AutocompleteField
+          name={`baseCake`}
+          label="Vị bánh"
+          options={cakeBaseOptions}
+        />
         <RHFNumberCustom
           name="minPrice"
           label="Giá thấp nhất"

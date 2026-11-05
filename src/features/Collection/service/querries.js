@@ -26,7 +26,6 @@ export const useCollectionGetAll = () => {
   })
 }
 
-// GET /collections/:slug
 export const useCollectionGetDetails = (slug) => {
   return useQuery({
     queryKey: collectionKeys.detail(slug),

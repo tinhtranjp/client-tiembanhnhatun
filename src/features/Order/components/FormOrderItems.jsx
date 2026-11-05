@@ -85,7 +85,6 @@ export default function FormOrderItems({ initialData }) {
       return next
     })
   }
-
   const handleRemove = (index) => {
     remove(index)
 
@@ -146,7 +145,7 @@ export default function FormOrderItems({ initialData }) {
       {fields.map((field, index) => {
         const item = orderItems[index]
         const itemErrors = errors.orderItems?.[index]
-
+        const hasProduct = item?.productId != null // item thuộc sản phẩm có sẵn
         const hatPrice = Number(selectedHats[index]?.price ?? 0)
         const candlePrice = Number(selectedCandles[index]?.price ?? 0)
 
@@ -201,7 +200,6 @@ export default function FormOrderItems({ initialData }) {
                 </IconButton>
               </Stack>
             </Box>
-
             <Grid
               container
               spacing={2}
@@ -346,18 +344,29 @@ export default function FormOrderItems({ initialData }) {
                 />
               </Grid>
 
-              <Grid size={{ xs: 12 }}>
-                <Controller
-                  name={`orderItems.${index}.images`}
-                  control={control}
-                  render={({ field: controllerField }) => (
-                    <OrderItemsUploadImage
-                      value={controllerField.value ?? []}
-                      onChange={controllerField.onChange}
-                    />
-                  )}
-                />
-              </Grid>
+              {hasProduct ? (
+                <Grid size={{ xs: 12 }}>
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                  >
+                    Ảnh được lấy tự động từ sản phẩm.
+                  </Typography>
+                </Grid>
+              ) : (
+                <Grid size={{ xs: 12 }}>
+                  <Controller
+                    name={`orderItems.${index}.images`}
+                    control={control}
+                    render={({ field: controllerField }) => (
+                      <OrderItemsUploadImage
+                        value={controllerField.value ?? []}
+                        onChange={controllerField.onChange}
+                      />
+                    )}
+                  />
+                </Grid>
+              )}
             </Grid>
           </Box>
         )

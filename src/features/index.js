@@ -1,7 +1,7 @@
 export { default as Layout } from "../components/layout/Layout.jsx"
 export { default as LayoutRoute } from "../components/layout/LayoutRoute.jsx"
 
-export { default as Home } from "./Home/Home.tsx"
+export { default as OverView } from "./DashBoard/OverView.jsx"
 
 // Theme
 export { default as Theme } from "@/features/Theme/Theme.jsx"
