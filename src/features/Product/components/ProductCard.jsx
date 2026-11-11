@@ -1,12 +1,11 @@
 import { Box, Card, CardContent, Chip, Divider, IconButton, Stack, Typography } from "@mui/material"
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
-import { useNavigate } from "react-router-dom"
-import AddIcon from "@mui/icons-material/Add"
 import ActionMenu from "./ActionMenu"
+import { useNavigateForm } from "@/hook/useNavigateFrom"
 
 function ProductCard({ product, collections }) {
-  console.log("pc collections", collections)
-  const navigate = useNavigate()
+  const navigateForm = useNavigateForm()
+
   return (
     <Card
       elevation={0}
@@ -195,7 +194,7 @@ function ProductCard({ product, collections }) {
           </Typography>
 
           <IconButton
-            onClick={() => navigate(`/product/${product.id}/edit`)}
+            onClick={() => navigateForm(`/product/${product.id}/edit`)}
             size="small"
             sx={{
               border: "1px solid",

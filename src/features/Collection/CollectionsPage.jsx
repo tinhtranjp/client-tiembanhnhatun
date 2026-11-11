@@ -355,7 +355,6 @@ export default function CollectionsPage() {
   const mutationReorder = useCollectionReorderProducts()
   // Lưu thứ tự lên BE
   const handleSaveOrder = async (collection) => {
-    console.log("reorder", collection)
     try {
       await mutationReorder.mutateAsync({
         id: Number(collection.id),

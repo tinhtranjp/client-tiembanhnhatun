@@ -7,12 +7,14 @@ import ProductCard from "./components/ProductCard"
 import { useNavigate } from "react-router-dom"
 import { useCollectionGetAll } from "../Collection/service/querries"
 import useOnBackPage from "@/hook/useOnBackPage"
+
 const LIMIT = 10
 function Product() {
   const [search, setSearch] = useState("")
   const [query, setQuery] = useState("")
   const [page, setPage] = useState(1)
   const navigate = useNavigate()
+
   // Debounce search
   useEffect(() => {
     const timer = setTimeout(() => {

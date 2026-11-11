@@ -24,6 +24,7 @@ export default function ActionMenu({ product, collections }) {
 
   const handleCreateOrder = () => {
     handleClose()
+    navigate(`/order/add?productId=${product.id}`)
   }
 
   const handleGoDetail = () => {
