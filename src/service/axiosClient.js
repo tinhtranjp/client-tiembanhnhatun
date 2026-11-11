@@ -6,7 +6,7 @@ import { toast } from "sonner"
 
 export const axiosClient = axios.create({
   // baseURL: "https://tuntundb.asia/api/v1/",
-  baseURL: "http://192.168.1.5:3000/api/v1/",
+  baseURL: "https://hear-east-counseling-cover.trycloudflare.com/api/v1/",
 })
 
 axiosClient.interceptors.request.use(
