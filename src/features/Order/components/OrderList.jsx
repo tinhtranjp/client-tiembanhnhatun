@@ -23,7 +23,7 @@ import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined"
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined"
 import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined"
 import OrderSearchFilters from "./OrderSearchFilters"
-import { getStatusColor, orderStatusOptions, PAYMENT_MAP } from "../service/helper"
+import { getOrderStatusStyle, getStatusColor, orderStatusOptions, PAYMENT_MAP } from "../service/helper"
 import { formatDate, formatMoney, getToday } from "@/helper/common"
 import { useOrdersTogglePaymentStatus, useOrdersUpdateStatus } from "../service/mutation"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -142,6 +142,7 @@ function OrderCard({ order, onClick, onChangeStatus, updatePayment }) {
   const items = order.orderItems ?? []
   const customerName = order.customerName || "Khách hàng"
   const customerPhone = order.customerPhone || "Chưa có số điện thoại"
+  const statusStyle = getOrderStatusStyle(order.orderStatus)
 
   return (
     <Card
@@ -149,8 +150,13 @@ function OrderCard({ order, onClick, onChangeStatus, updatePayment }) {
       sx={{
         borderRadius: 3,
         overflow: "hidden",
-        transition: "border-color 0.2s",
-        "&:hover": { borderColor: "primary.main" },
+        bgcolor: statusStyle.bgColor,
+        borderColor: statusStyle.color + "40",
+        transition: "all 0.2s",
+        "&:hover": {
+          borderColor: statusStyle.color,
+          boxShadow: `0 2px 8px ${statusStyle.color}20`,
+        },
       }}
     >
       <CardActionArea
@@ -198,7 +204,7 @@ function OrderCard({ order, onClick, onChangeStatus, updatePayment }) {
                   color: getStatusColor(order),
                   fontWeight: 600,
                   "& .MuiSelect-icon": {
-                    color: getStatusColor(order),
+                    color: statusStyle.color,
                   },
                 }}
               >

@@ -39,3 +39,6 @@ export { default as CakeBaseSummary } from "@/features/Order/CakeBaseSummary.jsx
 
 // Collections page
 export { default as CollectionsPage } from "@/features/Collection/CollectionsPage.jsx"
+
+// StoreInfo page
+export { default as StoreInfo } from "@/features/StoreInfo/StoreInfo.jsx"

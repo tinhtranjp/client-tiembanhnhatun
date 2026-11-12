@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom"
 
 const menuItems = [
   { title: "Dashboard", type: "link", url: "/" },
+  { title: "Thông tin cửa hàng", type: "link", url: "/store-info" },
   {
     title: "Page view",
     type: "parent",

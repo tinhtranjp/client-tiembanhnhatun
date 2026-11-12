@@ -35,6 +35,7 @@ import {
   OrderDetail,
   CakeBaseSummary,
   CollectionsPage,
+  StoreInfo,
 } from "./features"
 import ScrollToTop from "./hook/ScrollToTop"
 import ImageZoomDialog from "./components/common/ImageZoomDiaLog"
@@ -155,6 +156,10 @@ function App() {
               <Route
                 element={<CollectionsPage />}
                 path="/collection/list"
+              />
+              <Route
+                element={<StoreInfo />}
+                path="/store-info"
               />
               <Route
                 element={<TestVideoUpload />}

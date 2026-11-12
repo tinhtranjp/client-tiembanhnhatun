@@ -132,10 +132,30 @@ export const mapOrderToForm = (order) => {
 }
 
 export const orderStatusOptions = [
-  { value: "PENDING", label: "Chưa làm", color: "#ED6C02" },
-  { value: "READY", label: "Đã làm xong", color: "#0288D1" },
-  { value: "DONE", label: "Đã giao hàng xong", color: "#2E7D32" },
-  { value: "CANCEL", label: "Đã hủy", color: "#D32F2F" },
+  {
+    value: "PENDING",
+    label: "Chưa làm",
+    color: "#ED6C02",
+    bgColor: "#FFF3E0",
+  },
+  {
+    value: "READY",
+    label: "Đã làm xong",
+    color: "#0288D1",
+    bgColor: "#E1F5FE",
+  },
+  {
+    value: "DONE",
+    label: "Đã giao hàng xong",
+    color: "#2E7D32",
+    bgColor: "#E8F5E9",
+  },
+  {
+    value: "CANCEL",
+    label: "Đã hủy",
+    color: "#D32F2F",
+    bgColor: "#FFEBEE",
+  },
 ]
 
 export const STATUS_MAP = {
@@ -152,4 +172,13 @@ export const PAYMENT_MAP = {
 
 export const getStatusColor = (order) => {
   return orderStatusOptions.find((option) => option.value === order.orderStatus)?.color
+}
+
+export const getOrderStatusStyle = (status) => {
+  const option = orderStatusOptions.find((item) => item.value === status)
+
+  return {
+    color: option?.color ?? "#757575",
+    bgColor: option?.bgColor ?? "#F5F5F5",
+  }
 }
