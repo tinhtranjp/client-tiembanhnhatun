@@ -9,15 +9,6 @@ import { useLocation } from "react-router-dom"
 
 const menuItems = [
   { title: "Dashboard", type: "link", url: "/" },
-  { title: "Thông tin cửa hàng", type: "link", url: "/store-info" },
-  {
-    title: "Page view",
-    type: "parent",
-    children: [
-      { title: "list", type: "link", url: "/collection/list" },
-      { title: "add", type: "link", url: "/product/add" },
-    ],
-  },
   {
     title: "Đơn hàng",
     type: "parent",
@@ -66,6 +57,15 @@ const menuItems = [
       { title: "Sắp xếp", type: "link", url: "/theme/reorder" },
     ],
   },
+  {
+    title: "Page view",
+    type: "parent",
+    children: [
+      { title: "list", type: "link", url: "/collection/list" },
+      { title: "add", type: "link", url: "/product/add" },
+    ],
+  },
+  { title: "Thông tin cửa hàng", type: "link", url: "/store-info" },
 ]
 
 function DashboardLayout({ children }) {
