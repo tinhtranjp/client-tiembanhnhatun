@@ -5,6 +5,9 @@ import { useNavigate, useParams, useLocation } from "react-router-dom"
 import FormOrder from "./components/FormOrder"
 import { useOrdersUpdate } from "./service/mutation"
 
+import { useMemo } from "react"
+import { mapOrderToForm } from "./service/helper"
+
 export default function UpdateOrder() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -19,7 +22,9 @@ export default function UpdateOrder() {
   const handleOnBackPage = () => {
     navigate(location.state?.from ?? "/product/list")
   }
-  if (!data) return
+  const initialData = useMemo(() => (data?.data ? mapOrderToForm(data.data) : undefined), [data])
+  if (!initialData) return null
+
   return (
     <Box sx={{ p: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -41,7 +46,7 @@ export default function UpdateOrder() {
         </Box>
       </Box>
       <FormOrder
-        initialData={data?.data}
+        initialData={initialData}
         mode="update"
         onSubmit={handleSubmit}
       />

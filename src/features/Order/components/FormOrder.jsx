@@ -31,6 +31,7 @@ function FormOrder({ onSubmit, initialData, mode = "create" }) {
     resolver: zodResolver(orderSchema),
     defaultValues: defaultValues,
   })
+
   console.log(methods.formState.errors)
   useEffect(() => {
     if (initialData) {
